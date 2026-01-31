@@ -20,5 +20,17 @@ pipeline {
                 archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
             }
         }
+        stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv('SonarQube') {
+            sh '''
+            ./gradlew sonarqube \
+            -Dsonar.projectKey=gradle-demo \
+            -Dsonar.projectName=gradle-demo \
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+            '''
+        }
+    }
+}
     }
 }
