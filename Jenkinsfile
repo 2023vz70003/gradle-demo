@@ -15,6 +15,12 @@ pipeline {
             }
         }
 
+        stage('Archive Artifact') {
+            steps {
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
