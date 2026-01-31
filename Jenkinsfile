@@ -24,7 +24,12 @@ pipeline {
       stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('SonarQube') {
-            withCredentials([string(credentialsId: 'sqa_0a380e9edd3d74f6ee9ad5f526baf0cd37ddaeb1', variable: 'SONAR_TOKEN')]) {
+            withCredentials([
+                string(
+                    credentialsId: 'sqa_0a380e9edd3d74f6ee9ad5f526baf0cd37ddaeb1',
+                    variable: 'SONAR_TOKEN'
+                )
+            ]) {
                 script {
                     def scannerHome = tool 'SonarScanner'
                     sh """
@@ -35,12 +40,13 @@ pipeline {
                       -Dsonar.tests=src/test/java \
                       -Dsonar.java.binaries=build/classes \
                       -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml \
-                      -Dsonar.login=${SONAR_TOKEN}
+                      -Dsonar.login=\$SONAR_TOKEN
                     """
                 }
             }
         }
     }
 }
+
     }
 }
