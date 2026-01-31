@@ -32,21 +32,18 @@ pipeline {
             ]) {
                 script {
                     def scannerHome = tool 'SonarScanner'
-                    sh """
-                    ${scannerHome}/bin/sonar-scanner \
-                      -Dsonar.projectKey=gradle-demo \
-                      -Dsonar.projectName=gradle-demo \
-                      -Dsonar.sources=src/main/java \
-                      -Dsonar.tests=src/test/java \
-                      -Dsonar.java.binaries=build/classes \
-                      -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml \
-                      -Dsonar.login=\$SONAR_TOKEN
-                    """
+                    sh "${scannerHome}/bin/sonar-scanner " +
+                       "-Dsonar.projectKey=gradle-demo " +
+                       "-Dsonar.projectName=gradle-demo " +
+                       "-Dsonar.sources=src/main/java " +
+                       "-Dsonar.tests=src/test/java " +
+                       "-Dsonar.java.binaries=build/classes " +
+                       "-Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml " +
+                       "-Dsonar.login=${SONAR_TOKEN}"
                 }
             }
         }
     }
 }
-
     }
 }
