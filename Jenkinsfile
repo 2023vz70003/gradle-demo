@@ -27,16 +27,16 @@ pipeline {
             withCredentials([string(credentialsId: 'sqa_0a380e9edd3d74f6ee9ad5f526baf0cd37ddaeb1', variable: 'SONAR_TOKEN')]) {
                 script {
                     def scannerHome = tool 'SonarScanner'
-                    sh """
-                    ${scannerHome}/bin/sonar-scanner \
+                    sh '''
+                    '"$scannerHome"'/bin/sonar-scanner \
                       -Dsonar.projectKey=gradle-demo \
                       -Dsonar.projectName=gradle-demo \
                       -Dsonar.sources=src/main/java \
                       -Dsonar.tests=src/test/java \
                       -Dsonar.java.binaries=build/classes \
                       -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml \
-                      -Dsonar.login=\\$SONAR_TOKEN
-                    """
+                      -Dsonar.login=$SONAR_TOKEN
+                    '''
                 }
             }
         }
