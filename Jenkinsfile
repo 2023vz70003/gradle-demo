@@ -24,7 +24,7 @@ pipeline {
     steps {
         withSonarQubeEnv('SonarQube') {
             sh '''
-            ./gradlew sonarqube \
+            ./gradlew sonar \
             -Dsonar.projectKey=gradle-demo \
             -Dsonar.projectName=gradle-demo \
             -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
