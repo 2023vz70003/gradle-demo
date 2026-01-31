@@ -24,13 +24,17 @@ pipeline {
     steps {
         withSonarQubeEnv('SonarQube') {
             sh '''
-            ./gradlew sonar \
-            -Dsonar.projectKey=gradle-demo \
-            -Dsonar.projectName=gradle-demo \
-            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+            sonar-scanner \
+              -Dsonar.projectKey=gradle-demo \
+              -Dsonar.projectName=gradle-demo \
+              -Dsonar.sources=src/main/java \
+              -Dsonar.tests=src/test/java \
+              -Dsonar.java.binaries=build/classes \
+              -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
             '''
         }
     }
 }
+
     }
 }
