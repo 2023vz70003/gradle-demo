@@ -1,25 +1,17 @@
-pipeline {
-    agent any
+node {
 
-    stages {
-        stage('SCM') {
-            steps {
-                checkout scm
-            }
-        }
+    stage('Checkout') {
+        checkout scm
+    }
 
-        stage('Build & Test') {
-            steps {
-                sh './gradlew clean build'
-            }
-        }
+    stage('Build & Test') {
+        sh './gradlew clean build'
+    }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh './gradlew sonar'
-                }
-            }
+    stage('SonarQube Analysis') {
+        withSonarQubeEnv('SonarQube') {
+            sh './gradlew sonarqube'
         }
     }
+
 }
