@@ -1,17 +1,31 @@
-node {
+pipeline {
+    agent any
 
-    stage('Checkout') {
-        checkout scm
-    }
+    stages {
 
-    stage('Build & Test') {
-        sh './gradlew clean build'
-    }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
-    stage('SonarQube Analysis') {
-        withSonarQubeEnv('SonarQube') {
-            sh './gradlew sonarqube'
+        stage('Build & Test') {
+            steps {
+                sh './gradlew clean build'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                        sh '''
+                        ./gradlew sonar \
+                          -Dsonar.login=$SONAR_TOKEN
+                        '''
+                    }
+                }
+            }
         }
     }
-
 }
